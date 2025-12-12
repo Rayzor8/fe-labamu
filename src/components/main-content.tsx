@@ -5,9 +5,9 @@ import { notFound } from "next/navigation";
 import { SearchBar } from "./custom/search-bar";
 import { useAllPokemonNames, usePokemonList } from "@/hooks/use-pokemon";
 import { useMemo, useState } from "react";
-import ModalPokeDetail from "./modals/modal-poke-detail";
 import { Pagination } from "./custom/pagination";
 import { PokemonCard } from "./custom/pokemon-card";
+import { ModalPokeDetail } from "./modals/modal-poke-detail";
 
 const ITEMS_PER_PAGE = 20;
 export default function MainContent() {
@@ -103,8 +103,8 @@ export default function MainContent() {
         {selectedPokemon && isModalDetailOpen && (
           <ModalPokeDetail
             pokemonName={selectedPokemon}
-            isOpen={isModalDetailOpen}
-            onCloseAction={() => setIsModalDetailOpen(false)}
+            open={isModalDetailOpen}
+            onClose={() => setIsModalDetailOpen(false)}
           />
         )}
       </div>
