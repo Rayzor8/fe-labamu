@@ -14,13 +14,12 @@ export async function fetchPokemonList(
   const response = await fetch(
     `${BASE_URL}/pokemon?offset=${offset}&limit=${limit}`
   );
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch Pokemon list: ${response.status}`);
+  try {
+    const data = await response.json();
+    return PokemonListResponseSchema.parse(data);
+  } catch (err) {
+    throw new Error(`Failed to fetch Pokemon list: ${err}`);
   }
-
-  const data = await response.json();
-  return PokemonListResponseSchema.parse(data);
 }
 
 export async function fetchPokemonDetail(
@@ -34,6 +33,17 @@ export async function fetchPokemonDetail(
 
   const data = await response.json();
   return PokemonDetailSchema.parse(data);
+}
+
+export async function fetchAllPokemonNames(): Promise<PokemonListResponse> {
+  const response = await fetch(`${BASE_URL}/pokemon?limit=10000`)
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch all Pokemon names: ${response.status}`)
+  }
+
+  const data = await response.json()
+  return PokemonListResponseSchema.parse(data)
 }
 
 export function getPokemonImageUrl(id: number): string {

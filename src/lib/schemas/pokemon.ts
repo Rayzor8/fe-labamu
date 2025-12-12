@@ -46,8 +46,17 @@ export const PokemonDetailSchema = z.object({
   types: z.array(PokemonTypeSchema),
 });
 
+export const SearchFormSchema = z.object({
+  query: z
+    .string()
+    .min(3, "Must be at least 3 characters")
+    .max(20, "Must be at most 20 characters")
+    .trim(),
+});
+
 export type PokemonBasic = z.infer<typeof PokemonBasicSchema>;
 export type PokemonListResponse = z.infer<typeof PokemonListResponseSchema>;
 export type PokemonDetail = z.infer<typeof PokemonDetailSchema>;
 export type PokemonStat = z.infer<typeof PokemonStatSchema>;
 export type PokemonType = z.infer<typeof PokemonTypeSchema>;
+export type SearchFormValues = z.infer<typeof SearchFormSchema>;
