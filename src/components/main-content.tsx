@@ -7,6 +7,7 @@ import { useAllPokemonNames, usePokemonList } from "@/hooks/use-pokemon";
 import { useMemo, useState } from "react";
 import ModalPokeDetail from "./modals/modal-poke-detail";
 import { Pagination } from "./custom/pagination";
+import { PokemonCard } from "./custom/pokemon-card";
 
 const ITEMS_PER_PAGE = 20;
 export default function MainContent() {
@@ -47,7 +48,7 @@ export default function MainContent() {
 
   const handleSearch = (value: string) => {
     setSearchQuery(value);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -77,17 +78,15 @@ export default function MainContent() {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {displayedPokemon.map((pokemon) => (
-            <div
+            <PokemonCard
               key={pokemon.name}
+              name={pokemon.name}
+              url={pokemon.url}
               onClick={() => {
                 setSelectedPokemon(pokemon.name);
                 setIsModalDetailOpen(true);
               }}
-              className="space-y-2 bg-amber-50 text-black"
-            >
-              <p>{pokemon.name}</p>
-              <p>{pokemon.url}</p>
-            </div>
+            />
           ))}
         </div>
 
@@ -101,11 +100,13 @@ export default function MainContent() {
           </div>
         )}
 
-        <ModalPokeDetail
-          pokemonName={selectedPokemon}
-          isOpen={isModalDetailOpen}
-          onCloseAction={() => setIsModalDetailOpen(false)}
-        />
+        {selectedPokemon && isModalDetailOpen && (
+          <ModalPokeDetail
+            pokemonName={selectedPokemon}
+            isOpen={isModalDetailOpen}
+            onCloseAction={() => setIsModalDetailOpen(false)}
+          />
+        )}
       </div>
     </main>
   );
